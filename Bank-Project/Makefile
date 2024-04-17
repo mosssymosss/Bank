@@ -1,5 +1,5 @@
 run: init client destroy
-	./init
+	./init 10
 	./client
 	./destroy
 

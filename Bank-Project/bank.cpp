@@ -136,7 +136,7 @@ bool Bank::add_to_all(int amount)
     int index = 0;
     bool res = true;
     for( ; index < bankSize; ++index) {
-        if(!cells[index].receive_amount(amount) || cells[index].is_frozen()) {
+        if(cells[index].is_frozen() || !cells[index].receive_amount(amount)) {
             for(int i = 0; i < index; ++i) {
                 cells[i].send_amount(amount);
             }
@@ -169,7 +169,7 @@ bool Bank::sub_from_all(int amount)
     int index = 0;
     bool res = true;
     for( ; index < bankSize; ++index) {
-        if(!cells[index].send_amount(amount) || cells[index].is_frozen()) {
+        if(cells[index].is_frozen() || !cells[index].send_amount(amount)) {
             for(int i = 0; i < index; ++i) {
                 cells[i].receive_amount(amount);
             }
@@ -214,6 +214,26 @@ bool Bank::set_cell_max_amount(int num, int amount) {
     cells[num].set_max_amount(amount);
     sem_post(cells[num].sem);
     return true;
+}
+
+std::string Bank::get_info(int num) const
+{
+    if(num < 0 || num >= bankSize) {
+        return "";
+    }
+    std::string res = "curr: ";
+    res = res + std::to_string(cells[num].get_curr_balance()) + " | min: ";
+    res = res + std::to_string(cells[num].get_min_balance()) + " | max: ";
+    res = res + std::to_string(cells[num].get_max_balance()) + " | frozen: ";
+    if(cells[num].is_frozen())
+    {
+        res += "true";
+    }
+    else
+    {
+        res += "false";
+    }
+    return res;
 }
 
 BankCell& Bank::operator[](unsigned int ind)

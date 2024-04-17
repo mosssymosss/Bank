@@ -9,12 +9,11 @@
 
 #include "bank.h"
 
-void init_sem();
-void close_sem();
-
-int main()
+int main(int argc, char** argv)
 {
+
     const int n = 10;
+
     const char* shm_name = "/bank_shared_mem";
     int shm_fd = shm_open(shm_name, O_CREAT | O_RDWR , 0666);
     if(shm_fd == -1)
@@ -22,7 +21,10 @@ int main()
         std::cerr << "shm_open" <<std::endl;
         exit(errno);
     }
-    std::size_t size = sizeof(Bank) + n * sizeof(BankCell) + n * sizeof(sem_t);
+
+
+    std::size_t size = sizeof(Bank) + n * sizeof(BankCell);
+
 
     if(ftruncate(shm_fd, size) == -1)
     {

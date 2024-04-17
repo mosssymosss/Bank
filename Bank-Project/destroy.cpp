@@ -15,6 +15,7 @@
 int main()
 {
 
+
     const char* shm_name = "/bank_shared_mem";
     const char* sem_name = "/sem_shared_mem";
 //    int shm_fd = shm_open(shm_name, O_RDWR, 0666);
@@ -30,6 +31,7 @@ int main()
     }
 
     if(shm_unlink(shm_name) == -1) {
+
         std::cerr << "shm_unlink" << std::endl;
         exit(EXIT_FAILURE);
     }

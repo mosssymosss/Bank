@@ -11,12 +11,8 @@
 
 int main(int argc, char** argv)
 {
-    if(argc != 2)
-    {
-        std::cout<<"Can't create bank"<<std::endl;
-        exit(EXIT_FAILURE);
-    }
-    const int n = std::stoi(argv[1]);
+
+    const int n = 10;
 
     const char* shm_name = "/bank_shared_mem";
     int shm_fd = shm_open(shm_name, O_CREAT | O_RDWR , 0666);

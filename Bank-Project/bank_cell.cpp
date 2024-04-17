@@ -24,7 +24,7 @@ void BankCell::unfreeze() {
     frozen = false;
 }
 
-bool BankCell::is_frozen() {
+bool BankCell::is_frozen() const{
     return frozen;
 }
 

@@ -9,7 +9,7 @@ public:
     int get_curr_balance() const;
     void freeze();
     void unfreeze();
-    bool is_frozen();
+    bool is_frozen() const;
     bool send_amount(int amount);
     bool receive_amount(int amount);
     void set_min_amount(int amount);

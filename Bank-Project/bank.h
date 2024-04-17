@@ -3,6 +3,7 @@
 
 #include "bank_cell.h"
 #include <vector>
+#include <string>
 class BankCell;
 
 class Bank{
@@ -19,6 +20,8 @@ public:
     bool sub_from_all(int amount);
     bool set_cell_min_amount(int num, int amount);
     bool set_cell_max_amount(int num, int amount);
+
+    std::string get_info(int num) const;
 
     unsigned int bankSize;
     BankCell cells[];

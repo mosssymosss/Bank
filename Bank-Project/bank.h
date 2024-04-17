@@ -8,7 +8,7 @@ class BankCell;
 
 class Bank{
 public:
-
+    Bank(int* bankArray);
 
     int get_cell_curr_balance(int num) const;
     int get_cell_min_balance(int num) const;

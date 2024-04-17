@@ -1,8 +1,6 @@
 #ifndef BANKCELL
 #define BANKCELL
 
-#include <semaphore.h>
-
 class BankCell{
 public:
     BankCell();
@@ -22,7 +20,6 @@ public:
     int min_amount = 0;
     int max_amount = 1000;
     bool frozen;
-
 
 };
 

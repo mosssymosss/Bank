@@ -30,7 +30,6 @@ int main()
         std::cerr << "shm_open" <<std::endl;
         exit(errno);
     }
-  
     const int n = 10;
     std::size_t size = sizeof(Bank) + n * sizeof(BankCell);
 
@@ -40,10 +39,8 @@ int main()
         std::cerr << "init mmap" << std::endl;
         exit(EXIT_FAILURE);
     }
-
     while(true)
     {
-
         std::string input;
         std::getline(std::cin, input);
         if (input == "exit")
@@ -62,8 +59,6 @@ int main()
     }
 
 
-
-
     if(munmap(ptr, size) == -1)
     {
         std::cerr << "init munmap" <<std::endl;
@@ -75,13 +70,11 @@ int main()
         std::cerr << "init close" <<std::endl;
         exit(EXIT_FAILURE);
     }
-
     if(sem_close(sem) == -1)
     {
         std::cerr << "sem close" <<std::endl;
         exit(EXIT_FAILURE);
     }
-
 
     return 0;
 }
@@ -109,6 +102,7 @@ std::string logic(Bank* ptr, sem_t* sem, std::string input)
     {
         if(in[0] == "current")
         {
+
             int res = ptr->get_cell_curr_balance(std::stoi(in[1]) - 1);
             if(res == -1)
                 str = str + "invalid id";
@@ -161,11 +155,13 @@ std::string logic(Bank* ptr, sem_t* sem, std::string input)
         }
         else if(in[0] == "addall")
         {
+
             bool res = ptr->add_to_all(std::stoi(in[1]));
             if(!res)
                 str = str + "invalid op";
             else
                 str = str + "Successfully added " +in[1] +" to all cells";
+
         }
         else if(in[0] == "suball")
         {
@@ -183,7 +179,6 @@ std::string logic(Bank* ptr, sem_t* sem, std::string input)
                 str = str + "invalid id";
             else
                 str = str + res;
-
         }
         else
         {

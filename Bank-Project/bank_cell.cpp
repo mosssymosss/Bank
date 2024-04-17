@@ -1,25 +1,8 @@
 #include "bank_cell.h"
 #include <iostream>
-#include <string>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <semaphore.h>
-#include <cstdlib>
-#include <sys/mman.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <cstring>
-#include <cerrno>
-#include <sstream>
-#include <semaphore.h>
-
 
 BankCell::BankCell()
-        :current_balance(0)
-{
-
-}
-
+        :current_balance(0) {}
 
 int BankCell::get_min_balance() const {
     return min_amount;
@@ -29,9 +12,7 @@ int BankCell::get_max_balance() const {
     return max_amount;
 }
 
-int BankCell::get_curr_balance() const
-{
-    std::cout << __LINE__ << std::endl;
+int BankCell::get_curr_balance() const {
     return current_balance;
 }
 

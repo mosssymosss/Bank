@@ -4,22 +4,24 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <semaphore.h>
-#include <cstdlib>
-#include <sys/mman.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <cstring>
-#include <cerrno>
-#include <sstream>
-#include <semaphore.h>
 
-
-BankCell::BankCell()
+BankCell::BankCell(int id)
         :current_balance(0)
+        ,id(id + 1)
 {
-
+    std::string name= "sem" + std::to_string(id);
+    sem = sem_open(name.c_str(), O_EXCL | O_CREAT, 0660, 1);
+    if(sem == SEM_FAILED)
+    {
+        std::cerr << "sem_open" << std::endl;
+        exit(errno);
+    }
 }
 
+BankCell::~BankCell()
+{
+    sem_close(sem);
+}
 
 int BankCell::get_min_balance() const {
     return min_amount;
@@ -43,7 +45,7 @@ void BankCell::unfreeze() {
     frozen = false;
 }
 
-bool BankCell::is_frozen() const{
+bool BankCell::is_frozen() {
     return frozen;
 }
 

@@ -2,7 +2,11 @@
 #include <iostream>
 
 BankCell::BankCell()
-        :current_balance(0) {}
+        :current_balance(0)
+        ,min_amount(0)
+        ,max_amount(1000)
+        ,frozen(false)
+        {}
 
 int BankCell::get_min_balance() const {
     return min_amount;

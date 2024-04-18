@@ -17,8 +17,8 @@ public:
 
 public:
     int current_balance;
-    int min_amount = 0;
-    int max_amount = 1000;
+    int min_amount;
+    int max_amount;
     bool frozen;
 
 };

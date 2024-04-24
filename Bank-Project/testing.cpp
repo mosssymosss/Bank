@@ -12,6 +12,7 @@
 #include <string>
 
 #include "bank.h"
+#include "config.h"
 
 
 std::string logic(std::string input);
@@ -172,10 +173,8 @@ Bank* ptr;
 
 int main()
 {
-    const char* sem_name = "/sem_shared_mem";
     sem_t* sem = sem_open(sem_name,  O_CREAT, 0666, 1);
 
-    const char* shm_name = "/bank_shared_mem";
 
     int shm_fd = shm_open(shm_name, O_RDWR, 0666);
     if(shm_fd == -1)
@@ -183,7 +182,6 @@ int main()
         std::cerr << "shm_open" <<std::endl;
         exit(errno);
     }
-    const int n = 10;
     std::size_t size = sizeof(Bank) + n * sizeof(BankCell);
 
     ptr = (Bank*)mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);

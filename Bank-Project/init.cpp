@@ -8,13 +8,11 @@
 #include <semaphore.h>
 
 #include "bank.h"
+#include "config.h"
 
 int main(int argc, char** argv)
 {
 
-    const int n = 10;
-
-    const char* shm_name = "/bank_shared_mem";
     int shm_fd = shm_open(shm_name, O_CREAT | O_RDWR , 0666);
     if(shm_fd == -1)
     {

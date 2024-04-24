@@ -14,17 +14,19 @@ run: init client destroy
 run_client: client
 	./client
 
-testing: bank.h client.cpp bank_d.o bank_cell_d.o
-	$(CXX) testing.cpp bank.o bank_cell.o $(DBGFLG) -o testing $(CLIB)
 
-init: bank.h init.cpp bank.o bank_cell.o
+init: bank.h init.cpp bank.o bank_cell.o config.h
 	$(CXX) init.cpp bank.o bank_cell.o $(CFLAGS) -o init $(CLIB)
 
-client: bank.h client.cpp bank.o bank_cell.o
+client: bank.h client.cpp bank.o bank_cell.o config.h
 	$(CXX) client.cpp bank.o bank_cell.o $(CFLAGS) -o client $(CLIB)
 
-destroy: bank.h destroy.cpp bank.o bank_cell.o
+destroy: bank.h destroy.cpp bank.o bank_cell.o config.h
 	$(CXX) destroy.cpp bank.o bank_cell.o $(CFLAGS) -o destroy $(CLIB)
+
+testing: bank.h client.cpp bank_d.o bank_cell_d.o config.h
+	$(CXX) testing.cpp bank_d.o bank_cell_d.o $(CFLAGS) $(DBGFLG) -o testing $(CLIB)
+
 
 valgrind: init testing destroy
 	./init
@@ -39,10 +41,10 @@ bank.o: bank_cell.h bank.h bank.cpp
 	$(CXX) bank.cpp -c $(CFLAGS)
 
 bank_cell_d.o: bank_cell.cpp bank.h
-	$(CXX) bank_cell.cpp -c $(CFLAGS) $(DBGFLG) -o bank_cell_d.o $(CLIB)
+	$(CXX) bank_cell.cpp -c $(CFLAGS) $(DBGFLG) -o bank_cell_d.o
 
 bank_d.o: bank_cell.h bank.h bank.cpp
-	$(CXX) bank.cpp -c $(CFLAGS) $(DBGFLG) -o bank_d.o $(CLIB)
+	$(CXX) bank.cpp -c $(CFLAGS) $(DBGFLG) -o bank_d.o
 
 
 .PHONY: clean

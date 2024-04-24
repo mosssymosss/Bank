@@ -11,6 +11,7 @@
 #include <semaphore.h>
 
 #include "bank.h"
+#include "config.h"
 
 std::string logic(Bank* ptr, sem_t* sem, std::string input);
 
@@ -18,11 +19,8 @@ std::string logic(Bank* ptr, sem_t* sem, std::string input);
 
 int main()
 {
-
-    const char* sem_name = "/sem_shared_mem";
     sem_t* sem = sem_open(sem_name,  O_CREAT, 0666, 1);
 
-    const char* shm_name = "/bank_shared_mem";
 
     int shm_fd = shm_open(shm_name, O_RDWR, 0666);
     if(shm_fd == -1)
@@ -30,7 +28,7 @@ int main()
         std::cerr << "shm_open" <<std::endl;
         exit(errno);
     }
-    const int n = 10;
+
     std::size_t size = sizeof(Bank) + n * sizeof(BankCell);
 
     Bank* ptr = (Bank*)mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
@@ -174,7 +172,7 @@ std::string logic(Bank* ptr, sem_t* sem, std::string input)
         }
         else if(in[0] == "info")
         {
-            std::string res = ptr->get_info(std::stoi(in[1]));
+            std::string res = ptr->get_info(std::stoi(in[1]) - 1);
             if(res == "")
                 str = str + "invalid id";
             else

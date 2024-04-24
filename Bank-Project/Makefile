@@ -5,8 +5,8 @@ CLIB = -lrt -lpthread
 
 compile: init server client destroy
 
-testing: bank.h server.cpp bank.o bank_cell.o
-	$(CXX) testing.cpp bank.o bank_cell.o $(CFLAGS) $(DBGFLG) -o testing $(CLIB)
+testing: bank.h server.cpp bank_d.o bank_cell_d.o
+	$(CXX) testing.cpp bank.o bank_cell.o $(DBGFLG) -o testing $(CLIB)
 
 init: bank.h init.cpp bank.o bank_cell.o
 	$(CXX) init.cpp bank.o bank_cell.o $(CFLAGS) -o init $(CLIB)
@@ -31,6 +31,12 @@ bank_cell.o: bank_cell.cpp bank.h
 
 bank.o: bank_cell.h bank.h bank.cpp
 	$(CXX) bank.cpp -c
+
+bank_cell_d.o: bank_cell.cpp bank.h
+	$(CXX) bank_cell.cpp -c $(DBGFLG) -o bank_cell_d.o $(CLIB)
+
+bank_d.o: bank_cell.h bank.h bank.cpp
+	$(CXX) bank.cpp -c $(DBGFLG) -o bank_d.o $(CLIB)
 
 
 .PHONY: clean

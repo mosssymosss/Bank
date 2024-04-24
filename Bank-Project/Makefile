@@ -33,16 +33,16 @@ valgrind: init testing destroy
 
 
 bank_cell.o: bank_cell.cpp bank.h
-	$(CXX) bank_cell.cpp -c
+	$(CXX) bank_cell.cpp -c $(CFLAGS)
 
 bank.o: bank_cell.h bank.h bank.cpp
-	$(CXX) bank.cpp -c
+	$(CXX) bank.cpp -c $(CFLAGS)
 
 bank_cell_d.o: bank_cell.cpp bank.h
-	$(CXX) bank_cell.cpp -c $(DBGFLG) -o bank_cell_d.o $(CLIB)
+	$(CXX) bank_cell.cpp -c $(CFLAGS) $(DBGFLG) -o bank_cell_d.o $(CLIB)
 
 bank_d.o: bank_cell.h bank.h bank.cpp
-	$(CXX) bank.cpp -c $(DBGFLG) -o bank_d.o $(CLIB)
+	$(CXX) bank.cpp -c $(CFLAGS) $(DBGFLG) -o bank_d.o $(CLIB)
 
 
 .PHONY: clean

@@ -23,7 +23,7 @@ public:
 
     std::string get_info(int num) const;
 
-    unsigned int bankSize;
+    int bankSize;
     BankCell cells[];
 
     BankCell& operator[](unsigned int ind);

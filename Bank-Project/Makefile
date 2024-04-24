@@ -35,4 +35,4 @@ bank.o: bank_cell.h bank.h bank.cpp
 
 .PHONY: clean
 clean:
-	rm -f init server destroy *.o testing
+	rm -f init server destroy *.o testing client

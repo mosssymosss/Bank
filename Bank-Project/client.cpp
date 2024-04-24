@@ -36,6 +36,7 @@ int main()
 
     // send message to server
     std::string mess;
+    char buffer[3001];
     while(true)
     {
         std::getline(std::cin, mess);
@@ -49,6 +50,15 @@ int main()
             std::perror("send");
             exit(errno);
         }
+        int rs = recv(client_socket, buffer, 3000, 0);
+        if (rs < 0)
+        {
+            std::perror("client socket connection error");
+            close(client_socket);
+            exit(EXIT_FAILURE);
+        }
+        buffer[rs] = '\0';
+        std::cout<<buffer<<std::endl;
     }
     close(client_socket);
     return 0;

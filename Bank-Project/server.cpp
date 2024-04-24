@@ -41,14 +41,20 @@ void* handle_client(void* data)
             if(sem_wait(sem) == -1)
             {
                 std::cerr << "sem_wait" <<std::endl;
-                exit(EXIT_FAILURE);
+                return nullptr;
             }
             buffer[rs] = '\0';
-            std::cout<<logic(buffer) <<std::endl;
+            std::string mess = logic(buffer);
+            int sent = send(client_socket, mess.c_str(), mess.size(), 0);
+            if(sent == -1)
+            {
+                std::perror("send");
+                return nullptr;
+            }
             if(sem_post(sem) == -1)
             {
                 std::cerr << "sem_post" <<std::endl;
-                exit(EXIT_FAILURE);
+                return nullptr;
             }
         }
         else
@@ -266,7 +272,7 @@ std::string logic(std::string input)
         }
         else if(in[0] == "info")
         {
-            std::string res = ptr->get_info(std::stoi(in[1]));
+            std::string res = ptr->get_info(std::stoi(in[1]) - 1);
             if(res == "")
                 str = str + "invalid id";
             else

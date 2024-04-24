@@ -16,6 +16,7 @@
 #include <pthread.h>
 
 #include "bank.h"
+#include "config.h"
 
 sem_t* sem;
 Bank* ptr;
@@ -81,7 +82,7 @@ int main()
 
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = htonl(INADDR_ANY);
-    server_address.sin_port = htons(9888);
+    server_address.sin_port = htons(hostshort);
 
     if (bind(server_socket, (struct sockaddr *)&server_address, sizeof(server_address)) < 0)
     {
@@ -96,11 +97,7 @@ int main()
     }
     std::cout << "Waiting for connection\n";
 
-
-    const char* sem_name = "/sem_shared_mem";
     sem = sem_open(sem_name,  O_CREAT, 0666, 1);
-
-    const char* shm_name = "/bank_shared_mem";
 
     int shm_fd = shm_open(shm_name, O_RDWR, 0666);
     if(shm_fd == -1)
@@ -108,7 +105,6 @@ int main()
         std::cerr << "shm_open" <<std::endl;
         exit(errno);
     }
-    const int n = 10;
     std::size_t size = sizeof(Bank) + n * sizeof(BankCell);
 
     ptr = (Bank*)mmap(nullptr, size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);

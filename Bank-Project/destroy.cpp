@@ -11,12 +11,11 @@
 #include <semaphore.h>
 
 #include "bank.h"
+#include "config.h"
+
 
 int main()
 {
-
-    const char* shm_name = "/bank_shared_mem";
-    const char* sem_name = "/sem_shared_mem";
 
     if(sem_unlink(sem_name) == -1)
     {

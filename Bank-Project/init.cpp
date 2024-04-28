@@ -12,9 +12,6 @@
 
 int main(int argc, char** argv)
 {
-
-
-
     int shm_fd = shm_open(shm_name, O_CREAT | O_RDWR , 0666);
     if(shm_fd == -1)
     {

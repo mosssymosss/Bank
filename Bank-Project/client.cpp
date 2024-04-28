@@ -7,16 +7,14 @@
 
 #include "config.h"
 
-int main()
-{
+int main() {
 
     // server address
     struct sockaddr_in server_address;
 
     // create a socket
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (client_socket == -1)
-    {
+    if (client_socket == -1) {
         std::perror("socket creation error");
         exit(errno);
     }
@@ -27,10 +25,9 @@ int main()
     server_address.sin_port = htons(hostshort);
 
     // connect
-    int connected = connect(client_socket, (struct sockaddr*) &server_address, sizeof(server_address));
+    int connected = connect(client_socket, (struct sockaddr *) &server_address, sizeof(server_address));
 
-    if(connected == -1)
-    {
+    if (connected == -1) {
         std::perror("connection failed");
         exit(errno);
     }
@@ -38,28 +35,24 @@ int main()
     // send message to server
     std::string mess;
     char buffer[3001];
-    while(true)
-    {
+    while (true) {
         std::getline(std::cin, mess);
-        if(mess == "exit")
-        {
+        if (mess == "exit") {
             break;
         }
         int sent = send(client_socket, mess.c_str(), mess.size(), 0);
-        if(sent == -1)
-        {
+        if (sent == -1) {
             std::perror("send");
             exit(errno);
         }
         int rs = recv(client_socket, buffer, 3000, 0);
-        if (rs < 0)
-        {
+        if (rs < 0) {
             std::perror("client socket connection error");
             close(client_socket);
             exit(EXIT_FAILURE);
         }
         buffer[rs] = '\0';
-        std::cout<<buffer<<std::endl;
+        std::cout << buffer << std::endl;
     }
     close(client_socket);
     return 0;

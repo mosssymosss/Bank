@@ -18,6 +18,7 @@
 #include "bank.h"
 #include "config.h"
 
+
 sem_t* sem;
 Bank* ptr;
 
@@ -194,132 +195,74 @@ std::string logic(std::string input)
     //setmax 5 50
     if(in.size() == 2)
     {
+        /*
         if(in[0] == "current")
         {
-
-            int res = ptr->get_cell_curr_balance(std::stoi(in[1]) - 1);
-            if(res == -1)
-                str = str + "invalid id";
-            else {
-                str = str + "Current balance for cell number ";
-                str = str + in[1];
-                str = str + ": ";
-                str = str + std::to_string(res);
-            }
+            str = ptr->get_cell_curr_balance(std::stoi(in[1]) - 1) << std::endl;
         }
         else if(in[0] == "minimum")
         {
-            int res = ptr->get_cell_min_balance(std::stoi(in[1]) - 1);
-            if(res == -1)
-                str = str + "invalid id";
-            else {
-                str = str + "Minimum balance for cell number ";
-                str = str + in[1];
-                str = str + ": ";
-                str = str + std::to_string(res);
-            }
+            str = ptr->get_cell_min_balance(std::stoi(in[1]) - 1) << std::endl;
         }
         else if(in[0] == "maximum")
         {
-            int res = ptr->get_cell_max_balance(std::stoi(in[1]) - 1);
-            if(res == -1)
-                str = str + "invalid id";
-            else {
-                str = str + "Maximum balance for cell number ";
-                str = str + in[1];
-                str = str + ": ";
-                str = str + std::to_string(res);
-            }
+            str = ptr->get_cell_max_balance(std::stoi(in[1]) - 1);
         }
-        else if(in[0] == "freeze")
+         */
+        if(in[0] == "freeze")
         {
-            bool res = ptr->freeze_cell(std::stoi(in[1]) - 1);
-            if(!res)
-                str = str + "invalid id";
-            else
-                str = str + "Cell number " + in[1]+" successfully frozen";
+            str = ptr->freeze_cell(std::stoi(in[1]) - 1);
         }
         else if(in[0] == "unfreeze")
         {
-            bool res = ptr->unfreeze_cell(std::stoi(in[1]) - 1);
-            if(!res)
-                str = str + "invalid id";
-            else
-                str = str + "Cell number "+in[1]+" successfully unfrozen";
+            str = ptr->unfreeze_cell(std::stoi(in[1]) - 1);
         }
         else if(in[0] == "addall")
         {
-
-            bool res = ptr->add_to_all(std::stoi(in[1]));
-            if(!res)
-                str = str + "invalid op";
-            else
-                str = str + "Successfully added " +in[1] +" to all cells";
-
+            str = ptr->add_to_all(std::stoi(in[1]));
         }
         else if(in[0] == "suball")
         {
-            bool res = ptr->sub_from_all(std::stoi(in[1]));
-            if(!res)
-                str = str + "invalid op";
-            else
-                str = str + "Successfully subbed " + in[1] +" from all cells";
-
+            str = ptr->sub_from_all(std::stoi(in[1]));
         }
         else if(in[0] == "info")
         {
-            std::string res = ptr->get_info(std::stoi(in[1]) - 1);
-            if(res == "")
-                str = str + "invalid id";
-            else
-                str = str + res;
+            str = ptr->get_info(std::stoi(in[1]) - 1);
         }
         else
         {
-            str = str + "invalid input";
+            str = "invalid input";
         }
     }
     else if(in.size() == 3)
     {
         if(in[0] == "setmin")
         {
-            bool res = ptr->set_cell_min_amount(std::stoi(in[1]) - 1, std::stoi(in[2]));
-            if(!res)
-                str = str + "invalid op";
-            else
-                str = str +"Minimum for cell "+in[1]+" is set to "+in[2];
+            str = ptr->set_cell_min_amount(std::stoi(in[1]) - 1, std::stoi(in[2]));
         }
         else if(in[0] == "setmax")
         {
-            bool res = ptr->set_cell_max_amount(std::stoi(in[1]) - 1, std::stoi(in[2]));
-            if(!res)
-                str = str + "invalid op";
-            else
-                str = str +"Maximum for cell "+in[1]+" is set to "+in[2];
+            str = ptr->set_cell_max_amount(std::stoi(in[1]) - 1, std::stoi(in[2]));
         }
         else
         {
-            str = str + "invalid input";
+            str = "invalid input";
         }
     }
     else if(in.size() == 4)
     {
         if(in[0] == "transfer")
         {
-            bool res = ptr->transfer(std::stoi(in[1]) - 1, std::stoi(in[2]) - 1, std::stoi(in[3]));
-            if(!res)
-                str = str + "invalid op";
-            else
-                str = str +"Successfully transferred "+in[3] +" from " +in[1]+" to "+in[2];
+            str = ptr->transfer(std::stoi(in[1]) - 1, std::stoi(in[2]) - 1, std::stoi(in[3]));
         }
         else
         {
-            str = str + "invalid input";
+            str = "invalid input";
         }
     }
     else
     {
-        str = str + "invalid input";
+        str = "invalid input";
     }
 
     return str;

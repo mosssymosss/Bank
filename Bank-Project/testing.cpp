@@ -4,7 +4,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <unistd.h>
+#include <unistd.h>/
 #include <cstring>
 #include <cerrno>
 #include <sstream>
@@ -14,6 +14,7 @@
 #include "bank.h"
 #include "config.h"
 
+//maybe not correct?
 
 std::string logic(std::string input);
 

@@ -31,7 +31,7 @@ int main() {
         std::perror("connection failed");
         exit(errno);
     }
-
+    std::cout << "Successfully connected to server." << std::endl;
     // send message to server
     std::string mess;
     char buffer[3001];

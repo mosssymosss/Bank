@@ -21,8 +21,26 @@
 
 sem_t* sem;
 Bank* ptr;
-
+int request_count = 0;
 std::string logic(std::string input);
+
+void* handle_server(void* data)
+{
+    bool printed = false;
+    while(true)
+    {
+        if (request_count % 5 == 0 && !printed)
+        {
+            std::cout << "Total requests: " << request_count << std::endl;
+            printed = true;
+        }
+        else if(request_count % 5 == 1)
+        {
+            printed = false;
+        }
+    }
+    return nullptr;
+}
 
 void* handle_client(void* data)
 {
@@ -48,6 +66,7 @@ void* handle_client(void* data)
             buffer[rs] = '\0';
             std::string mess = logic(buffer);
             int sent = send(client_socket, mess.c_str(), mess.size(), 0);
+            ++request_count;
             if(sent == -1)
             {
                 std::perror("send");
@@ -116,6 +135,14 @@ int main()
     }
 
     std::vector<pthread_t> threads;
+
+    pthread_t thread;
+    if(pthread_create(&thread, nullptr, handle_server, nullptr) != 0)
+    {
+        std::perror("pthread");
+        exit(EXIT_FAILURE);
+    }
+    threads.push_back(thread);
 
     while(true)
     {

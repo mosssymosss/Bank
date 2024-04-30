@@ -44,5 +44,5 @@ bank_d.o: bank_cell.h bank.h bank.cpp
 
 .PHONY: clean
 clean:
-	rm -f init client destroy *.o init_d client_d destroy_d testing
+	rm -f init client destroy *.o init_d client_d destroy_d testing server
 

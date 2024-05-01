@@ -192,7 +192,7 @@ std::string Bank::get_info(int num) const
     if(num < 0 || num >= bankSize) {
         return "invalid cell id";
     }
-    std::string res = "curr: ";
+    std::string res = "id: " + std::to_string(num + 1) +" | curr: ";
     res = res + std::to_string(cells[num].get_curr_balance()) + " | min: ";
     res = res + std::to_string(cells[num].get_min_balance()) + " | max: ";
     res = res + std::to_string(cells[num].get_max_balance()) + " | frozen: ";

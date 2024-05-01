@@ -31,6 +31,7 @@ int main() {
         std::perror("connection failed");
         exit(errno);
     }
+    system("clear");
     std::cout << "Successfully connected to server." << std::endl;
     // send message to server
     std::string mess;
@@ -51,7 +52,14 @@ int main() {
             close(client_socket);
             exit(EXIT_FAILURE);
         }
+        system("clear");
         buffer[rs] = '\0';
+        if(std::string(buffer) == "shutdown")
+        {
+            close(client_socket);
+            exit(EXIT_SUCCESS);
+
+        }
         std::cout << buffer << std::endl;
     }
     close(client_socket);

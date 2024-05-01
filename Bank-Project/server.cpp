@@ -22,6 +22,9 @@
 sem_t* sem;
 Bank* ptr;
 int request_count = 0;
+
+bool shut_down = false;
+
 std::string logic(std::string input);
 
 void* handle_server(void* data)
@@ -64,6 +67,25 @@ void* handle_client(void* data)
                 return nullptr;
             }
             buffer[rs] = '\0';
+            if(std::string(buffer) == "shutdown")
+            {
+                shut_down = true;
+            }
+            if(shut_down)
+            {
+                int sent = send(client_socket, "shutdown", 9, 0);
+                if(sent == -1)
+                {
+                    std::perror("send");
+                    return nullptr;
+                }
+                if(sem_post(sem) == -1)
+                {
+                    std::cerr << "sem_post" <<std::endl;
+                    return nullptr;
+                }
+                continue;
+            }
             std::string mess = logic(buffer);
             int sent = send(client_socket, mess.c_str(), mess.size(), 0);
             ++request_count;
@@ -85,6 +107,10 @@ void* handle_client(void* data)
         }
     }
     close(client_socket);
+    if(shut_down)
+    {
+        exit(EXIT_SUCCESS);
+    }
     return nullptr;
 }
 
@@ -115,6 +141,8 @@ int main()
         std::perror("listen failed");
         exit(errno);
     }
+    system("clear");
+
     std::cout << "Waiting for connection\n";
 
     sem = sem_open(sem_name,  O_CREAT, 0666, 1);
@@ -149,12 +177,13 @@ int main()
         int client_socket;
         struct sockaddr_in client_address;
         unsigned int client_addr_len = sizeof(client_address);
-        // Accept incoming connection
-        if ((client_socket = accept(server_socket, (struct sockaddr*) &client_address, &client_addr_len)) < 0)
-        {
-            std::perror("accept failed");
-            exit(errno);
-        }
+
+
+        if ((client_socket = accept(server_socket, (struct sockaddr *) &client_address, &client_addr_len)) < 0) {
+                std::perror("accept failed");
+                exit(errno);
+            }
+
         std::cout << "Connected client with address: " << inet_ntoa(client_address.sin_addr) << "\n";
 
         pthread_t thread;

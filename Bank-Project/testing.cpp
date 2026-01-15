@@ -4,7 +4,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <unistd.h>
+#include <unistd.h>/
 #include <cstring>
 #include <cerrno>
 #include <sstream>
@@ -14,6 +14,7 @@
 #include "bank.h"
 #include "config.h"
 
+//maybe not correct?
 
 std::string logic(std::string input);
 
@@ -174,7 +175,6 @@ Bank* ptr;
 int main()
 {
     sem_t* sem = sem_open(sem_name,  O_CREAT, 0666, 1);
-
 
     int shm_fd = shm_open(shm_name, O_RDWR, 0666);
     if(shm_fd == -1)
